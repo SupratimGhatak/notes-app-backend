@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login - Supra Notes</title>
+
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: radial-gradient(circle at top left, #667eea, #764ba2, #2d1d46);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.box {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(20px);
+    padding: 30px;
+    border-radius: 15px;
+    width: 300px;
+    text-align: center;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: none;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #667eea;
+    color: white;
+    cursor: pointer;
+}
+
+.switch {
+    margin-top: 10px;
+    color: white;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2 id="title">Login</h2>
+
+    <input id="username" placeholder="Username">
+    <input id="password" type="password" placeholder="Password">
+
+    <button onclick="submit()">Submit</button>
+
+    <div class="switch" onclick="toggle()">Switch to Signup</div>
+</div>
+
+<script>
+let isLogin = true;
+
+function toggle(){
+    isLogin = !isLogin;
+
+    document.getElementById("title").innerText = isLogin ? "Login" : "Signup";
+
+    document.querySelector(".switch").innerText =
+        isLogin ? "Switch to Signup" : "Switch to Login";
+}
+
+async function submit(){
+    let username = document.getElementById("username").value.trim();
+    let password = document.getElementById("password").value;
+
+    let url = isLogin
+        ? "http://127.0.0.1:8000/login"
+        : "http://127.0.0.1:8000/signup";
+
+    let res = await fetch(url, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({username, password})
+    });
+
+    let data = await res.json();
+    console.log(data); // 🔥 DEBUG
+
+    if(data.user_id){
+        localStorage.setItem("user_id", data.user_id);
+        window.location.href = "index.html";
+    } 
+    else {
+        alert(data.error || "Something went wrong 😭");
+    }
+}
+</script>
+
+</body>
+</html>
