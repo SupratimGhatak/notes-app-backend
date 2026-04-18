@@ -41,6 +41,9 @@ def signup(user: dict):
         username = user["username"].strip()
         password = user["password"]
 
+        # 🔥 fix: truncate to 72 bytes
+        password = password[:72]
+
         hashed_password = pwd_context.hash(password)
 
         cursor.execute(
@@ -68,6 +71,9 @@ def login(user: dict):
 
     username = user["username"].strip()
     password = user["password"]
+
+    # 🔥 same fix here
+    password = password[:72]
 
     cursor.execute(
         "SELECT id, password FROM users WHERE username=%s",
