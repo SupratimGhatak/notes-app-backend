@@ -439,7 +439,7 @@ async function addNote() {
     /* EDIT MODE */
     if (editId !== null) {
 
-        await fetch(`http://127.0.0.1:8000/notes/${editId}`, {
+        await fetch(`http://notes-app-backend-bjck.onrender.com/notes/${editId}`, {
             method: "PUT",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({ title, text: noteText })
@@ -468,7 +468,7 @@ async function addNote() {
             user_id: userId
         };
 
-        let res = await fetch("http://127.0.0.1:8000/notes", {
+        let res = await fetch("https://notes-app-backend-bjck.onrender.com/notes", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(n)
@@ -534,7 +534,7 @@ function displayNotes(note){
 
     /* DELETE */
     deleteBtn.onclick = async function() {
-        await fetch(`http://127.0.0.1:8000/notes/${note.id}`, { method: "DELETE" });
+        await fetch(`https://notes-app-backend-bjck.onrender.com/notes/${note.id}`, { method: "DELETE" });
 
         noteDiv.remove();
         notes = notes.filter(n => n.id !== note.id);

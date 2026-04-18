@@ -78,8 +78,8 @@ async function submit(){
     let password = document.getElementById("password").value;
 
     let url = isLogin
-        ? "http://127.0.0.1:8000/login"
-        : "http://127.0.0.1:8000/signup";
+        ? "https://notes-app-backend-bjck.onrender.com/login"
+        : "https://notes-app-backend-bjck.onrender.com/signup";
 
     let res = await fetch(url, {
         method: "POST",
