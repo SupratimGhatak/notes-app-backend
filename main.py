@@ -18,34 +18,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/setup-db")
-def setup_db():
-    conn = get_db()
-    cursor = conn.cursor()
-
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS users (
-        id SERIAL PRIMARY KEY,
-        username TEXT UNIQUE NOT NULL,
-        password TEXT NOT NULL
-    );
-    """)
-
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS notes (
-        id BIGSERIAL PRIMARY KEY,
-        title TEXT,
-        text TEXT,
-        created_at TIMESTAMP DEFAULT NOW(),
-        user_id INTEGER REFERENCES users(id)
-    );
-    """)
-
-    conn.commit()
-    cursor.close()
-    conn.close()
-
-    return {"message": "Tables created"}
 
 # ---------- DB CONNECTION FUNCTION ----------
 def get_db():
